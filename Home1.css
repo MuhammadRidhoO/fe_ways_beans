@@ -1,0 +1,12 @@
+.home {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: gainsboro;
+    padding-left: 20px;
+    width: 80%; 
+    height: 100%; 
+}
+
+.radio:hover{
+    background-color: black;
+}
