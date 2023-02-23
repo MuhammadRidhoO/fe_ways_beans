@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { API } from "../config/api";
 
 function IndexOwner() {
-    const {id} = useParams()
+    const { id } = useParams()
     let { data: transaction } = useQuery("userTrc", async () => {
-        const response = await API.get("/transactions")//localStorage.getItem("token"))
+        const response = await API.get("/transactions")
         return response.data.data
     })
-    console.log(transaction)
+    // console.log(transaction)
     return (
         <Container style={{ padding: "120px 80px 0px 80px" }}>
             <Table striped bordered hover>
@@ -22,15 +22,43 @@ function IndexOwner() {
                     </tr>
                 </thead>
                 {transaction?.map((a, b) => {
+                    console.log(a)
                     return (
-                        <tbody>
-                            <tr>
-                                <td>{a.id}</td>
-                                <td>{a.user?.full_name}</td>
-                                <td>Otto</td>
-                                <td>{a.status_payment}</td>
-                            </tr>
-                        </tbody>
+                        <>
+                            {a.products?.map((product, c) => {
+                                return (
+                                    <tbody>
+                                        <tr>
+                                            <td>{a.id}</td>
+                                            <td>{a.user?.full_name}</td>
+                                            <td>{product.Product?.name_product}</td>
+                                            <td> {(() => {
+                                                if (a.status_payment === "success") {
+                                                    return (
+                                                        <p className="text-success">
+                                                            Success
+                                                        </p>
+                                                    )
+                                                } else if (a.status_payment === "pending") {
+                                                    return (
+                                                        <p className="text-warning">
+                                                            Pending
+                                                        </p>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <p className="text-danger">
+                                                            Failed
+                                                        </p>
+                                                    )
+                                                }
+                                            })()}</td>
+                                        </tr>
+                                    </tbody>
+                                )
+                            })}
+
+                        </>
                     )
                 })}
             </Table>

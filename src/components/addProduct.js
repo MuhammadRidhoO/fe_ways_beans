@@ -105,7 +105,7 @@ function AddProduct() {
                                         as="textarea"
                                         name="descraption"
                                         onChange={handleChangeAddProduct}
-                                    style={{ backgroundColor: "rgba(97, 61, 43, 0.25)", border: "1px solid #613D2B",height: '100px' }}
+                                        style={{ backgroundColor: "rgba(97, 61, 43, 0.25)", border: "1px solid #613D2B", height: '100px' }}
                                         placeholder="Descraption"
                                     />
                                 </FloatingLabel>
@@ -122,7 +122,7 @@ function AddProduct() {
                                     type="file"
                                     name="image_product"
                                     onChange={handleChangeAddProduct}
-                                    style={{ backgroundColor: "rgba(97, 61, 43, 0.25)", border: "1px solid #613D2B", cursor: "pointer", opacity: 0  }}
+                                    style={{ backgroundColor: "rgba(97, 61, 43, 0.25)", border: "1px solid #613D2B", cursor: "pointer", opacity: 0 }}
                                 />
                                 <span className="d-block py-2 px-3">
                                     Upload Image
@@ -149,13 +149,12 @@ function AddProduct() {
                                         backgroundColor: "#613D2B",
                                         border: "0px"
                                     }}
-                                // onSubmit={handleChangeAddPopertyAdmin}
                                 >
                                     Save
                                 </Button>
                             </div>
                         </div>
-                        <img src={preview} alt={preview} style={{ width: 400, height: "250px", marginLeft: 40, borderRadius:10 }} />
+                        <img src={preview} alt={preview} style={{ width: 400, height: "250px", marginLeft: 40, borderRadius: 10, border: "0px solid red" }} />
                     </div>
                 </Form>
             </div>

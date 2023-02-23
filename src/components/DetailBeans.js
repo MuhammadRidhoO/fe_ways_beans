@@ -1,5 +1,4 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
-import jwtDecode from "jwt-decode";
 import { useContext } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
@@ -27,9 +26,6 @@ function Detail() {
         }
     });
     const [state, dispatch] = useContext(UserContext)
-    // const token = localStorage.getItem("token")
-    // console.log(token)
-    // const decoded = jwtDecode(token)
     return (
         <Container>
             <div style={{ width: "1000px", margin: "auto" }}>
@@ -49,7 +45,7 @@ function Detail() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
                             {(() => {
                                 if (state.user.roles === "User") {
-                                    console.log(state   )
+                                    console.log(state)
                                     return (
                                         <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
                                             Add Cart
@@ -58,8 +54,8 @@ function Detail() {
                                 } else {
                                     return (
                                         <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => Navigation("/")}>
-                                        Add Cart
-                                    </Button>
+                                            Add Cart
+                                        </Button>
                                     )
                                 }
                             })()}

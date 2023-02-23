@@ -16,7 +16,7 @@ export default function Profile() {
         const response = await API.get("profile")
         return response.data.data
     })
-    // refetch()
+    refetch()
 
     const [password, setPassword] = useState({
         old_password: "",
@@ -66,6 +66,7 @@ export default function Profile() {
             dataPhoto.set("image", formAddPhoto.image[0]);
 
             const response = await API.patch(`/user-image/${profiles?.id}`, dataPhoto, config);
+            refetch()
             console.log(response);
         } catch (error) {
             console.log(error);

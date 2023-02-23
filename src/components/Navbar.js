@@ -8,7 +8,8 @@ import { API } from '../config/api';
 import { UserContext } from '../context/UseContext';
 import LogoBeans from '../../src/image/LogoNavbar.png'
 import Card from '../../src/image/card.png'
-import UserDropdown from '../../src/image/User.png'
+import UserDropdown from '../../src/image/User.jpg'
+import UserDropdown1 from '../../src/image/User.png'
 
 function Navbarr() {
 
@@ -114,6 +115,7 @@ function Navbarr() {
    }
 
    let { data: order } = useQuery("orderUser", async () => {
+      refetch()
       const response = await API.get(`/orders`)
       refetch()
       return response.data.data
@@ -157,17 +159,6 @@ function Navbarr() {
                            id="dropdown-basic"
                            className="border-0"
                         >
-                           {/* <img
-                              src={UserDropdown}
-                              alt="human"
-                              style={{
-                                 borderRadius: 40,
-                                 height: 50,
-                                 width: 50,
-                                 fontSize: 24,
-                                 color: "Blue",
-                              }}
-                           /> */}
                            {(() => {
                               if (profiles?.image !== "") {
                                  return (
@@ -220,7 +211,7 @@ function Navbarr() {
                         ) : (
                            <Dropdown.Menu>
                               <Dropdown.Item href={`/profile-user`}>
-                                 <img src={UserDropdown} alt=""></img> Profile
+                                 <img src={UserDropdown1} alt=""></img> Profile
                               </Dropdown.Item>
                               <hr></hr>
                               <Dropdown.Item
