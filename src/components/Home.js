@@ -31,12 +31,12 @@ function Home() {
                </div>
             </div>
          </Container>
-         <div className="home" style={{ width: "1050px",  justifyContent: "space-between", margin: "auto", paddingTop: 20 }}>
+         <div className="home" style={{ width: "1050px", justifyContent: "space-between", margin: "auto", paddingTop: 20 }}>
             {products?.map((a, b) => {
                return (
-                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 240, height: 400, marginTop:50 }}>
+                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 240, height: 400, marginTop: 50, border: 1, borderRadius: 10 }}>
                      <Link to={`/detailbeans/${a.id}`}>
-                        <img src={a.image_product} alt="Coffe" style={{ width: 240, height: 320 }} />
+                        <img src={a.image_product} alt="Coffe" style={{ width: 240, height: 320, border: 1, borderRadius: 10 }} />
                      </Link>
                      <div style={{ padding: "10px 20px 10px 10px", backgroundColor: "#DBB699" }}>
                         <h5>{a.name_product}</h5>

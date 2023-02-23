@@ -78,7 +78,6 @@ function Navbarr() {
    const [signIn, setSignIn] = useState({
       email: "",
       password: "",
-      // status:""
    })
    const handleChangeSignIn = (e) => {
       setSignIn({
@@ -95,9 +94,8 @@ function Navbarr() {
             type: "LOGIN_SUCCESS",
             payload: responseSignIn.data.data,
          })
-         // console.log(responseSignIn.data.data, "Hallo Login")
          alert("Login Berhasil")
-         if (localStorage.status === "Admin") {
+         if (localStorage.roles === "Admin") {
             navigator("/")
          } else {
             navigator("/")
@@ -117,10 +115,10 @@ function Navbarr() {
 
    let { data: order } = useQuery("orderUser", async () => {
       const response = await API.get(`/orders`)
-      console.log(response.data.data.length)
       refetch()
       return response.data.data
    })
+   refetch()
    return (
       <div style={{ position: "fixed", width: "100%", zIndex: 100 }}>
          <Navbar bg="light" expand="lg">
@@ -144,7 +142,7 @@ function Navbarr() {
                                  if (order?.length !== undefined) {
                                     refetch()
                                     return (
-                                       <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -20, marginLeft: -5 }} />
+                                       <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -13 }} />
                                     )
                                  } else {
                                     return (

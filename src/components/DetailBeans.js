@@ -1,11 +1,14 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
 import jwtDecode from "jwt-decode";
+import { useContext } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../config/api";
+import { UserContext } from "../context/UseContext";
 
 function Detail() {
+    const Navigation = useNavigate()
     const { id } = useParams()
     let { data: product } = useQuery("detailbeans", async () => {
         const response = await API.get(`/product/` + id)
@@ -23,8 +26,9 @@ function Detail() {
             console.log(error);
         }
     });
-
+    const [state, dispatch] = useContext(UserContext)
     // const token = localStorage.getItem("token")
+    // console.log(token)
     // const decoded = jwtDecode(token)
     return (
         <Container>
@@ -43,19 +47,22 @@ function Detail() {
                             <FormatRupiah value={product?.price} />
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
-                            {/* {(() => {
-                                if (decoded.roles === "User") {
-                                    return ( */}
-                            <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
-                                Add Cart
-                            </Button>
-                            {/* )
+                            {(() => {
+                                if (state.user.roles === "User") {
+                                    console.log(state   )
+                                    return (
+                                        <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
+                                            Add Cart
+                                        </Button>
+                                    )
                                 } else {
                                     return (
-                                        <></>
+                                        <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => Navigation("/")}>
+                                        Add Cart
+                                    </Button>
                                     )
                                 }
-                            })()} */}
+                            })()}
                         </div>
                     </div>
                 </div>
