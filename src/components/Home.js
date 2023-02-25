@@ -10,8 +10,13 @@ function Home() {
       const response = await API.get("products")
       return response.data.data
    })
+   let { data: pay } = useQuery("payStockBeans", async () => {
+      const response = await API.get("transactions")
+      return response.data.data
+   })
+
    return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column",height:"50%", width:"70%", margin:"auto" }}>
          <Container style={{ paddingTop: 90 }}>
             <div style={{ width: "1050px", height: "400px", display: "flex", margin: "auto" }}>
                <div style={{ padding: 0 }}>
@@ -34,20 +39,32 @@ function Home() {
          <div className="home">
             {products?.map((a, b) => {
                return (
-                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 240, height: 350, marginTop: 50, border: 1, borderRadius: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 330, height: 550, marginTop: 50, border: 1, borderRadius: 10 }}>
                      <Link to={`/detailbeans/${a.id}`}>
-                        <img src={a.image_product} alt="Coffe" style={{ width: 240, height: 280, border: 1, borderTopRightRadius: 10, borderTopLeftRadius: 10 }} />
+                        <img src={a.image_product} alt="Coffe" style={{ width: 330, height: 430, border: 1, borderTopRightRadius: 10, borderTopLeftRadius: 10 }} />
                      </Link>
                      <div style={{ padding: "10px 20px 10px 10px", backgroundColor: "#DBB699", height: 100, borderRadius: 10 }}>
                         <h5>{a.name_product}</h5>
                         <h6><FormatRupiah value={a.price} /></h6>
-                        <h6>Stock : {a.stock}</h6>
+                        {/* {pay?.map((c, d) => {
+                           return ( */}
+                        <>
+                           {/* {(() => {
+                                    if (c.status_payment === "success") {
+                                       return ( */}
+                           < h6 > Stock : {a.stock}</h6>
+                           {/* )
+                                    }
+                                 })()} */}
+                        </>
+                        {/* )
+                        })} */}
                      </div>
                   </div>
                )
             })}
          </div>
-      </div>
+      </div >
    )
 }
 export default Home

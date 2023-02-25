@@ -77,7 +77,7 @@ export default function Profile() {
         const response = await API.get("transactions")
         return response.data.data
     })
-    console.log(transaction)
+    // console.log(transaction)
     // refetch()
     return (
         <Container style={{ paddingTop: "100px" }}>

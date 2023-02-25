@@ -29,7 +29,7 @@ function Detail() {
     return (
         <Container>
             <div style={{ width: "1000px", margin: "auto" }}>
-                <div style={{ display: "flex", paddingTop: 100 }}>
+                <div style={{ display: "flex", paddingTop: 100, justifyContent:"space-between" }}>
                     <div>
                         <img src={product?.image_product} alt="" style={{ width: 430, height: 550 }} />
                     </div>

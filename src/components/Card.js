@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { API } from "../config/api";
 
 function Cart() {
+    // const [loading, isLoading] = useState()
     const [total, setTotal] = useState(0)
     const Navigation = useNavigate()
     const [status_payment, setStatus_Payment] = useState("")
@@ -35,22 +36,23 @@ function Cart() {
     const {
         data: orderCart,
         refetch: orderCartRefetch,
+        isLoading
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
-        // if (response.data.data === null) {
-        //     Swal.fire({
-        //         title: "Your Cart is Empty",
-        //         text: "Please check our product",
-        //         icon: "info",
-        //     })
-        //     Navigation("/")
-        // }
+        if (response.data.data === null) {
+            Swal.fire({
+                title: "Your Cart is Empty",
+                text: "Please check our product",
+                icon: "info",
+            })
+            // Navigation("/")
+        }
         return response.data.data
     })
     const handleDeleteOrder = useMutation(async (id) => {
         try {
             const response = await API.delete(`/order/` + id);
-            if (response.data.status === "success") {
+            if (response.data.status_payment === "success") {
             }
             orderCartRefetch();
         } catch (e) {
@@ -63,7 +65,7 @@ function Cart() {
             const response = await API.patch(`/order/${id}`, {
                 event: "add",
             });
-            if (response.data.status === "success") {
+            if (response.data.status_payment === "success") {
             }
             orderCartRefetch();
         } catch (e) {
@@ -78,8 +80,9 @@ function Cart() {
             const response = await API.patch(`/order/${id}`, {
                 event: "less",
             });
-            if (response.data.status === "success") {
+            if (response.data.status_payment === "success") {
             }
+            console.log(response.data)
             orderCartRefetch();
         } catch (e) {
             console.log(e);
@@ -163,6 +166,9 @@ function Cart() {
     useEffect(() => {
         refetch()
     });
+
+    // const handleStock  = async()
+
     return (
         <Container style={{ margin: "auto" }}>
             <div style={{ paddingTop: 100 }}>
@@ -271,10 +277,10 @@ function Cart() {
                         <div style={{ display: "flex", justifyContent: "space-between", width: 444, alignItems: "" }}>
                             <div>Total</div>
                             {(() => {
-                                if (order?.length !== undefined) {
+                                if (order?.length.isLoading !== undefined) {
                                     refetch()
                                     return (
-                                        <div><FormatRupiah value={total} /></div>
+                                        <div>Rp. {total.toLocaleString()}</div>
                                     )
                                 } else {
                                     refetch()

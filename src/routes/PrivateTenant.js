@@ -4,9 +4,9 @@ import { Outlet, Navigate } from "react-router-dom";
 const PrivateTenant = () => {
     const token = localStorage.getItem("token")
     const decoded = jwtDecode(token)
-    // console.log(decoded)
+    console.log(decoded)
     
-    return decoded.status !== "Admin" ? <Outlet /> : <Navigate to="/" />;
+    return decoded.roles !== "Admin"     ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateTenant;

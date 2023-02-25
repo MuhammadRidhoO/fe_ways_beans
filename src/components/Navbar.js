@@ -164,13 +164,14 @@ function Navbarr() {
                                  return (
                                     <img
                                        src={profiles?.image}
-                                       alt="human"
+                                       alt=""
                                        style={{
                                           borderRadius: 40,
                                           height: 50,
                                           width: 50,
                                           fontSize: 24,
                                           color: "Red",
+                                          border:"3px solid black"
                                        }}
                                     />
                                  )
@@ -178,13 +179,14 @@ function Navbarr() {
                                  return (
                                     <img
                                        src={UserDropdown}
-                                       alt="human"
+                                       alt=""
                                        style={{
                                           borderRadius: 40,
                                           height: 50,
                                           width: 50,
                                           fontSize: 24,
                                           color: "Blue",
+                                          border:"3px solid black"
                                        }}
                                     />
                                  )
