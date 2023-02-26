@@ -39,9 +39,9 @@ function Home() {
          <div className="home">
             {products?.map((a, b) => {
                return (
-                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 330, height: 550, marginTop: 50, border: 1, borderRadius: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#DBB699", width: 250, height: 310, marginTop: 50, border: 1, borderRadius: 10 }}>
                      <Link to={`/detailbeans/${a.id}`}>
-                        <img src={a.image_product} alt="Coffe" style={{ width: 330, height: 430, border: 1, borderTopRightRadius: 10, borderTopLeftRadius: 10 }} />
+                        <img src={a.image_product} alt="Coffe" style={{ width: 250, height: 220, border: 1, borderTopRightRadius: 10, borderTopLeftRadius: 10 }} />
                      </Link>
                      <div style={{ padding: "10px 20px 10px 10px", backgroundColor: "#DBB699", height: 100, borderRadius: 10 }}>
                         <h5>{a.name_product}</h5>

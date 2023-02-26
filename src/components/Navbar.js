@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Dropdown, Form, Modal, NavLink } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -28,7 +28,6 @@ function Navbarr() {
       const response = await API.get("profile")
       return response.data.data
    })
-   // refetch()
 
    const [signUp, setSignUp] = useState({
       full_name: "",
@@ -72,7 +71,6 @@ function Navbarr() {
          console.log(error)
       }
    })
-   // refetch()
 
 
    const [state, dispatch] = useContext(UserContext)
@@ -114,13 +112,17 @@ function Navbarr() {
       navigator("/")
    }
 
-   let { data: order } = useQuery("orderUser", async () => {
-      refetch()
-      const response = await API.get(`/orders`)
-      refetch()
-      return response.data.data
+   let { data: order,
+      refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
+         orderCartRefetch()
+         const response = await API.get(`/orders`)
+         orderCartRefetch()
+         return response.data.data
+      })
+
+   useEffect(() => {
+      orderCartRefetch()
    })
-   refetch()
    return (
       <div style={{ position: "fixed", width: "100%", zIndex: 100 }}>
          <Navbar bg="light" expand="lg">
@@ -138,21 +140,34 @@ function Navbarr() {
                   {localStorage.getItem("token") ? (
                      <Dropdown style={{ display: "flex" }}>
                         <NavLink href='/card-transaction' style={{ marginRight: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                           <div style={{ position: "absolute" }}>
-                              <img src={Card} alt='' />
-                              {(() => {
-                                 if (order?.length !== undefined) {
-                                    refetch()
-                                    return (
-                                       <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -13 }} />
-                                    )
-                                 } else {
-                                    return (
-                                       <h></h>
-                                    )
-                                 }
-                              })()}
-                           </div>
+                           {(() => {
+                              if (state.user.roles !== "Admin") {
+                                 refetch()
+                                 return (
+                                    <div style={{ position: "absolute" }}>
+                                       <img src={Card} alt='' />
+                                       {(() => {
+                                          if (order?.length !== undefined) {
+                                             refetch()
+                                             return (
+                                                <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -13 }} />
+                                             )
+                                          } else {
+                                             refetch()
+                                             return (
+                                                <h></h>
+                                             )
+                                          }
+                                       })()}
+                                    </div>
+                                 )
+                              } else {
+                                 refetch()
+                                 return (
+                                    <></>
+                                 )
+                              }
+                           })()}
                         </NavLink>
                         <Dropdown.Toggle
                            variant=""
@@ -171,7 +186,7 @@ function Navbarr() {
                                           width: 50,
                                           fontSize: 24,
                                           color: "Red",
-                                          border:"3px solid black"
+                                          border: "3px solid black"
                                        }}
                                     />
                                  )
@@ -186,7 +201,7 @@ function Navbarr() {
                                           width: 50,
                                           fontSize: 24,
                                           color: "Blue",
-                                          border:"3px solid black"
+                                          border: "3px solid black"
                                        }}
                                     />
                                  )

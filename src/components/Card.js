@@ -36,7 +36,6 @@ function Cart() {
     const {
         data: orderCart,
         refetch: orderCartRefetch,
-        isLoading
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
         if (response.data.data === null) {
@@ -45,6 +44,7 @@ function Cart() {
                 text: "Please check our product",
                 icon: "info",
             })
+            orderCartRefetch()
             // Navigation("/")
         }
         return response.data.data

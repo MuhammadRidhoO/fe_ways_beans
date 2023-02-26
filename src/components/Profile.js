@@ -74,11 +74,10 @@ export default function Profile() {
     });
     // refetch()
     let { data: transaction } = useQuery("user", async () => {
-        const response = await API.get("transactions")
+        const response = await API.get(`transaction-user/`+ profiles?.id )
         return response.data.data
     })
-    // console.log(transaction)
-    // refetch()
+
     return (
         <Container style={{ paddingTop: "100px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", }}>
