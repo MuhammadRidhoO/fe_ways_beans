@@ -10,11 +10,6 @@ function Home() {
       const response = await API.get("products")
       return response.data.data
    })
-   let { data: pay } = useQuery("payStockBeans", async () => {
-      const response = await API.get("transactions")
-      return response.data.data
-   })
-
    return (
       <div style={{ display: "flex", flexDirection: "column",height:"50%", width:"70%", margin:"auto" }}>
          <Container style={{ paddingTop: 90 }}>

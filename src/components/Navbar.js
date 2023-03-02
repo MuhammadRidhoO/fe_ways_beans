@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Dropdown, Form, Modal, NavLink } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -113,16 +113,13 @@ function Navbarr() {
    }
 
    let { data: order,
-      refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
+         refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
          orderCartRefetch()
          const response = await API.get(`/orders`)
          orderCartRefetch()
          return response.data.data
       })
 
-   useEffect(() => {
-      orderCartRefetch()
-   })
    return (
       <div style={{ position: "fixed", width: "100%", zIndex: 100 }}>
          <Navbar bg="light" expand="lg">
@@ -150,7 +147,7 @@ function Navbarr() {
                                           if (order?.length !== undefined) {
                                              refetch()
                                              return (
-                                                <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -13 }} />
+                                                <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -10 }} />
                                              )
                                           } else {
                                              refetch()

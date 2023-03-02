@@ -19,17 +19,18 @@ function Detail() {
             const response = await API.post(`/order`, {
                 product_id: parseInt(id),
             });
-            console.log(response)
+            console.log(response.data.status)
+
 
         } catch (error) {
             console.log(error);
         }
     });
-    const [state, dispatch] = useContext(UserContext)
+    const [state, ] = useContext(UserContext)
     return (
         <Container>
             <div style={{ width: "1000px", margin: "auto" }}>
-                <div style={{ display: "flex", paddingTop: 100, justifyContent:"space-between" }}>
+                <div style={{ display: "flex", paddingTop: 100, justifyContent: "space-between" }}>
                     <div>
                         <img src={product?.image_product} alt="" style={{ width: 430, height: 550 }} />
                     </div>
@@ -45,7 +46,6 @@ function Detail() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
                             {(() => {
                                 if (state.user.roles === "User") {
-                                    console.log(state)
                                     return (
                                         <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
                                             Add Cart

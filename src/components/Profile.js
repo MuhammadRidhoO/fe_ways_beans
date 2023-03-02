@@ -74,7 +74,7 @@ export default function Profile() {
     });
     // refetch()
     let { data: transaction } = useQuery("user", async () => {
-        const response = await API.get(`transaction-user/`+ profiles?.id )
+        const response = await API.get(`transaction-user/` + profiles?.id)
         return response.data.data
     })
 
@@ -92,7 +92,6 @@ export default function Profile() {
                                 <Form onSubmit={(e) => handleSubmitUser.mutate(e)} style={{ display: "flex", flexDirection: "column" }} >
                                     <Button
                                         type="submit"
-                                        // onSubmit={handleChangePhoto}
                                         className="position-relative p-0 m-0"
                                         style={{ backgroundColor: "#5A57AB", width: "300px" }}
                                     >
@@ -183,8 +182,8 @@ export default function Profile() {
                             return (
                                 <>
                                     {a.products?.map((product, c) => {
-                                        
-                                        return (    
+
+                                        return (
                                             <div style={{ display: "flex", backgroundColor: "#F6E6DA", width: 530, padding: 10, justifyContent: "space-between", marginTop: 20 }}>
                                                 <div>
                                                     <img src={product.Product?.image_product} alt="" style={{ width: 120, height: 160 }} />
@@ -197,13 +196,13 @@ export default function Profile() {
                                                         <p>Saturday, 5 March 2020</p>
                                                     </div>
                                                     <div style={{ color: "#974A4A" }}>
-                                                        <p><FormatRupiah  value={product.Product?.price}/></p>
+                                                        <p><FormatRupiah value={product.Product?.price} /></p>
                                                     </div>
                                                     <div style={{ marginTop: -25, color: "#974A4A" }}>
                                                         <p>Qty : {product.Qty}</p>
                                                     </div>
                                                     <div style={{ fontWeight: "bold", marginTop: -25 }}>
-                                                        <h5 style={{ fontWeight: "bold", color: "#974A4A" }}><FormatRupiah value={product.Qty * product.Product?.price}/></h5>
+                                                        <h5 style={{ fontWeight: "bold", color: "#974A4A" }}><FormatRupiah value={product.Qty * product.Product?.price} /></h5>
                                                     </div>
                                                 </div>
                                                 <div style={{ display: "flex" }}>

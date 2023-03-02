@@ -2,21 +2,16 @@ import { FormatRupiah } from "@arismun/format-rupiah";
 import { useEffect, useState } from "react";
 import { Button, Container, NavLink, Table } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API } from "../config/api";
 
 function Cart() {
-    // const [loading, isLoading] = useState()
     const [total, setTotal] = useState(0)
     const Navigation = useNavigate()
-    const [status_payment, setStatus_Payment] = useState("")
+    const [setStatus_Payment] = useState("")
 
-    let { data: Users, refetch } = useQuery("ProfileUserBooking", async () => {
-        const response = await API.get("profile")
-        return response.data.data
-    })
-    // console.log(Users.id)
+
     const [qty, setQty] = useState(0)
     const handleQty = (e) => {
         setQty({
@@ -39,13 +34,13 @@ function Cart() {
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
         if (response.data.data === null) {
-            Swal.fire({
-                title: "Your Cart is Empty",
-                text: "Please check our product",
-                icon: "info",
-            })
+            // Swal.fire({
+            //     title: "Your Cart is Empty",
+            //     text: "Please check our product",
+            //     icon: "info",
+            // })
             orderCartRefetch()
-            // Navigation("/")
+            Navigation("/")
         }
         return response.data.data
     })
@@ -134,20 +129,20 @@ function Cart() {
         }
     });
 
-    useEffect(() => {
-        const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
-        const myMidtransClientKey = "SB-Mid-client-uEsWsCCq1uRJ_gxm"
+    // useEffect(() => {
+    //     const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //     const myMidtransClientKey = "SB-Mid-client-uEsWsCCq1uRJ_gxm"
 
-        let scriptTag = document.createElement("script")
-        scriptTag.src = midtransScriptUrl
+    //     let scriptTag = document.createElement("script")
+    //     scriptTag.src = midtransScriptUrl
 
-        scriptTag.setAttribute("data-client-key", myMidtransClientKey)
-        document.body.appendChild(scriptTag)
+    //     scriptTag.setAttribute("data-client-key", myMidtransClientKey)
+    //     document.body.appendChild(scriptTag)
 
-        return () => {
-            document.body.removeChild(scriptTag)
-        }
-    }, [])
+    //     return () => {
+    //         document.body.removeChild(scriptTag)
+    //     }
+    // }, [])
 
     useEffect(() => {
         let total = orderCart?.reduce((sum, order) => {
@@ -161,16 +156,12 @@ function Cart() {
         const response = await API.get(`/orders`)
         return response.data.data
     })
-    refetch()
+    orderCartRefetch()
 
-    useEffect(() => {
-        refetch()
-    });
 
-    // const handleStock  = async()
 
     return (
-        <Container style={{ margin: "auto" }}>
+        <Container style={{ margin: "auto", width:"100%", backgroundColor:"gray" }}>
             <div style={{ paddingTop: 100 }}>
                 <div>
                     <p style={{ fontWeight: "bold", color: "#613D2B", fontSize: "30px" }}>My Cart</p>
@@ -182,14 +173,14 @@ function Cart() {
                     {orderCart?.map((a, b) => {
                         return (
                             <div style={{ display: "flex" }}>
-                                <Table style={{ width: "800px", marginRight: "10px" }}>
+                                <Table style={{ width: "600px", marginRight: "10px", backgroundColor: "red" }}>
                                     <thead>
                                         <tr style={{ border: "3px solid black", }}></tr>
                                         <div style={{ display: "flex" }}>
                                             <div>
                                                 <img src={a.product?.image_product} alt="" style={{ width: 120, height: 140, padding: 6 }} />
                                             </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between", width: "700px" }}>
+                                            <div style={{ display: "flex", justifyContent: "space-between", width: "550px" }}>
                                                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "400px" }}>
                                                     <div>
                                                         <p style={{ color: "#613D2B", fontWeight: "bold" }}>{a.product?.name_product}</p>
@@ -241,7 +232,7 @@ function Cart() {
                                 </Table>
                                 <div style={{ padding: "10px" }}>
 
-                                    <Table striped bordered hover style={{ width: "300px" }}>
+                                    <Table striped bordered hover style={{ width: "150px", backgroundColor: "blue" }}>
                                         <thead>
                                             <tr style={{ border: "3px solid black" }}></tr>
                                             <div style={{ display: "flex" }}>
@@ -272,31 +263,31 @@ function Cart() {
 
                         )
                     })}
-                    <div style={{ display: "flex", justifyContent: "end" }}>
-
-                        <div style={{ display: "flex", justifyContent: "space-between", width: 444, alignItems: "" }}>
-                            <div>Total</div>
-                            {(() => {
-                                if (order?.length.isLoading !== undefined) {
-                                    refetch()
-                                    return (
-                                        <div>Rp. {total.toLocaleString()}</div>
-                                    )
-                                } else {
-                                    refetch()
-                                    return (
-                                        <div>Rp. 0</div>
-                                    )
-                                }
-                            })()}
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "end", backgroundColor: "aqua", width:"760px" }}>
+                        <div style={{ display: "flex", justifyContent: "end" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", width: 444, backgroundColor: "green" }}>
+                                <div>Total</div>
+                                {(() => {
+                                    if (order?.length !== undefined) {
+                                        orderCartRefetch()
+                                        return (
+                                            <p><FormatRupiah value={total} /></p>
+                                        )
+                                    } else {
+                                        orderCartRefetch()
+                                        return (
+                                            <div>Rp. 0</div>
+                                        )
+                                    }
+                                })()}
+                            </div>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "end" }}>
+                            <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 50 }} onClick={(e) => handleAddTransaction.mutate(e)}>
+                                Pay
+                            </Button>
                         </div>
                     </div>
-
-                </div>
-                <div style={{ display: "flex", justifyContent: "end" }}>
-                    <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 20 }} onClick={(e) => handleAddTransaction.mutate(e)}>
-                        Pay
-                    </Button>
                 </div>
             </div>
         </Container>
