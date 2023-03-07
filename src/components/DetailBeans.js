@@ -26,16 +26,16 @@ function Detail() {
             console.log(error);
         }
     });
-    const [state, ] = useContext(UserContext)
+    const [state,] = useContext(UserContext)
     return (
         <Container>
-            <div style={{ width: "1000px", margin: "auto" }}>
+            <div style={{ width: "850px", margin: "auto" }}>
                 <div style={{ display: "flex", paddingTop: 100, justifyContent: "space-between" }}>
                     <div>
-                        <img src={product?.image_product} alt="" style={{ width: 430, height: 550 }} />
+                        <img src={product?.image_product} alt="" style={{ width: 300, height: 450 }} />
                     </div>
-                    <div>
-                        <div style={{ padding: "70px 50px 70px 50px" }}>
+                    <div style={{ width: "500px", padding: "50px 30px 50px 30px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                        <div>
                             <h2 style={{ fontFamily: "serif", color: "#613D2B" }}>{product?.name_product}</h2>
                             <h5 style={{ fontFamily: "serif", color: "#974A4A" }}>Stock : {product?.stock}</h5>
                             <h5 style={{ fontFamily: "serif", textAlign: "justify" }}>{product?.description}</h5>
@@ -47,13 +47,13 @@ function Detail() {
                             {(() => {
                                 if (state.user.roles === "User") {
                                     return (
-                                        <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
+                                        <Button style={{ width: 350, backgroundColor: "#613D2B", border: "1px" }} onClick={() => handleBean.mutate()}>
                                             Add Cart
                                         </Button>
                                     )
                                 } else {
                                     return (
-                                        <Button style={{ width: 500, backgroundColor: "#613D2B", border: "1px" }} onClick={() => Navigation("/")}>
+                                        <Button style={{ width: 350, backgroundColor: "#613D2B", border: "1px" }} onClick={() => Navigation("/")}>
                                             Add Cart
                                         </Button>
                                     )

@@ -154,7 +154,7 @@ function AddProduct() {
                                 </Button>
                             </div>
                         </div>
-                        <img src={preview} alt={preview} style={{ width: 400, height: "250px", marginLeft: 40, borderRadius: 10, border: "0px solid red" }} />
+                        <img src={preview} alt={preview} style={{ width: 220, height: "260px", marginLeft: 40, borderRadius: 10, border: "0px solid red" }} />
                     </div>
                 </Form>
             </div>

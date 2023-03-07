@@ -9,8 +9,7 @@ import { API } from "../config/api";
 function Cart() {
     const [total, setTotal] = useState(0)
     const Navigation = useNavigate()
-    const [setStatus_Payment] = useState("")
-
+    const [status_Payment, setStatus_Payment] = useState("")
 
     const [qty, setQty] = useState(0)
     const handleQty = (e) => {
@@ -19,26 +18,13 @@ function Cart() {
             [e.target.name]: e.target.value,
         })
     }
-    const handleQtyBean = useMutation(async (e) => {
-        try {
-            e.preventDefault()
-            const response = await API.patch("/order/", qty)
-            console.log(response, "apakah ada?")
-        } catch (error) {
 
-        }
-    })
     const {
         data: orderCart,
         refetch: orderCartRefetch,
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
         if (response.data.data === null) {
-            // Swal.fire({
-            //     title: "Your Cart is Empty",
-            //     text: "Please check our product",
-            //     icon: "info",
-            // })
             orderCartRefetch()
             Navigation("/")
         }
@@ -54,8 +40,9 @@ function Cart() {
             console.log(e);
         }
     });
+
+
     const handleAddQty = useMutation(async (id) => {
-        // console.log("tambah");
         try {
             const response = await API.patch(`/order/${id}`, {
                 event: "add",
@@ -70,7 +57,6 @@ function Cart() {
 
     // less counter
     const handleLessQty = useMutation(async (id) => {
-        // console.log("kurang");
         try {
             const response = await API.patch(`/order/${id}`, {
                 event: "less",
@@ -93,6 +79,7 @@ function Cart() {
                 products.push({
                     id: push.id,
                     status_payment: "pending",
+                    order_date:push.order_date,
                     product_id: push.product.id,
                     qty: push.qty
                 });
@@ -106,8 +93,11 @@ function Cart() {
                 onSuccess: function (result) {
                     console.log(response)
                     console.log(result, "Test test");
-                    Navigation("/");
+                    Navigation("/profile-user");
                     setStatus_Payment("success")
+                    console.log("berhasil")
+                    // let response = API.delete("/orderallorder")
+                    // console.log(response)
                 },
                 onPending: function (result) {
                     console.log(result);
@@ -123,26 +113,25 @@ function Cart() {
                     alert(" YOU MUSH BUY RIGHT!!");
                 },
             })
-
         } catch (error) {
             console.log(error)
         }
     });
 
-    // useEffect(() => {
-    //     const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
-    //     const myMidtransClientKey = "SB-Mid-client-uEsWsCCq1uRJ_gxm"
+    useEffect(() => {
+        const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+        const myMidtransClientKey = "SB-Mid-client-uEsWsCCq1uRJ_gxm"
 
-    //     let scriptTag = document.createElement("script")
-    //     scriptTag.src = midtransScriptUrl
+        let scriptTag = document.createElement("script")
+        scriptTag.src = midtransScriptUrl
 
-    //     scriptTag.setAttribute("data-client-key", myMidtransClientKey)
-    //     document.body.appendChild(scriptTag)
+        scriptTag.setAttribute("data-client-key", myMidtransClientKey)
+        document.body.appendChild(scriptTag)
 
-    //     return () => {
-    //         document.body.removeChild(scriptTag)
-    //     }
-    // }, [])
+        return () => {
+            document.body.removeChild(scriptTag)
+        }
+    }, [])
 
     useEffect(() => {
         let total = orderCart?.reduce((sum, order) => {
@@ -161,7 +150,7 @@ function Cart() {
 
 
     return (
-        <Container style={{ margin: "auto", width:"100%", backgroundColor:"gray" }}>
+        <Container style={{ margin: "auto", width: "850px" }}>
             <div style={{ paddingTop: 100 }}>
                 <div>
                     <p style={{ fontWeight: "bold", color: "#613D2B", fontSize: "30px" }}>My Cart</p>
@@ -172,16 +161,16 @@ function Cart() {
                     </div>
                     {orderCart?.map((a, b) => {
                         return (
-                            <div style={{ display: "flex" }}>
-                                <Table style={{ width: "600px", marginRight: "10px", backgroundColor: "red" }}>
+                            <div style={{ display: "flex", width: "850px", justifyContent: "space-between" }}>
+                                <Table style={{ width: "450px", marginRight: "10px" }}>
                                     <thead>
                                         <tr style={{ border: "3px solid black", }}></tr>
                                         <div style={{ display: "flex" }}>
                                             <div>
                                                 <img src={a.product?.image_product} alt="" style={{ width: 120, height: 140, padding: 6 }} />
                                             </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between", width: "550px" }}>
-                                                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "400px" }}>
+                                            <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }}>
+                                                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "250px" }}>
                                                     <div>
                                                         <p style={{ color: "#613D2B", fontWeight: "bold" }}>{a.product?.name_product}</p>
                                                     </div>
@@ -232,12 +221,12 @@ function Cart() {
                                 </Table>
                                 <div style={{ padding: "10px" }}>
 
-                                    <Table striped bordered hover style={{ width: "150px", backgroundColor: "blue" }}>
+                                    <Table striped bordered hover>
                                         <thead>
                                             <tr style={{ border: "3px solid black" }}></tr>
                                             <div style={{ display: "flex" }}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "350px" }}>
+                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "250px" }}>
                                                         <div>
                                                             <p style={{ color: "#613D2B", fontWeight: "bold" }}>Subtotal</p>
                                                         </div>
@@ -263,9 +252,9 @@ function Cart() {
 
                         )
                     })}
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "end", backgroundColor: "aqua", width:"760px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "end", width: "850px" }}>
                         <div style={{ display: "flex", justifyContent: "end" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", width: 444, backgroundColor: "green" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", width: 400 }}>
                                 <div>Total</div>
                                 {(() => {
                                     if (order?.length !== undefined) {
@@ -283,14 +272,16 @@ function Cart() {
                             </div>
                         </div>
                         <div style={{ display: "flex", justifyContent: "end" }}>
-                            <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 50 }} onClick={(e) => handleAddTransaction.mutate(e)}>
+                            <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 50 }}
+                                onClick={(e) => handleAddTransaction.mutate(e)}
+                            >
                                 Pay
                             </Button>
                         </div>
                     </div>
                 </div>
             </div>
-        </Container>
+        </Container >
     )
 }
 export default Cart;
