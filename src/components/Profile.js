@@ -4,6 +4,7 @@ import { Button, Container, Form, Modal, NavLink } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
+import moment from 'moment'
 
 export default function Profile() {
     const Navigate = useNavigate()
@@ -182,7 +183,7 @@ export default function Profile() {
                                     return (
                                         <>
                                             {a.products?.map((product, c) => {
-
+                                                console.log(product)
                                                 return (
                                                     <div style={{ display: "flex", backgroundColor: "#F6E6DA", width: "100%", padding: 10, marginTop: 20 }}>
                                                         <div>
@@ -193,7 +194,7 @@ export default function Profile() {
                                                                 <h5 style={{ fontWeight: "bold", color: "#613D2B", fontSize: "15px" }}>{product.Product?.name_product}</h5>
                                                             </div>
                                                             <div style={{ marginTop: -10, color: "#974A4A" }}>
-                                                                <p style={{ fontSize: "12px" }}>Saturday, 5 March 2020</p>
+                                                                <p style={{ fontSize: "12px" }}>{moment(a.order_date).format('DD/MMMM/YYYY')}</p>
                                                             </div>
                                                             <div style={{ color: "#974A4A" }}>
                                                                 <p style={{ fontSize: "12px" }}><FormatRupiah value={product.Product?.price} /></p>

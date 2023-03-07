@@ -25,8 +25,8 @@ function Cart() {
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
         if (response.data.data === null) {
-            orderCartRefetch()
             Navigation("/")
+            orderCartRefetch()
         }
         return response.data.data
     })
@@ -79,7 +79,7 @@ function Cart() {
                 products.push({
                     id: push.id,
                     status_payment: "pending",
-                    order_date:push.order_date,
+                    order_date: push.order_date,
                     product_id: push.product.id,
                     qty: push.qty
                 });
@@ -207,7 +207,7 @@ function Cart() {
                                                     </div>
                                                 </div>
                                                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-end" }}>
-                                                    <p style={{}}><FormatRupiah value={a.qty * a.product?.price} /></p>
+                                                    <p style={{}}><FormatRupiah value={a.product?.price} /></p>
                                                     <NavLink onClick={() => {
                                                         handleDeleteOrder.mutate(a.id)
                                                     }}>
@@ -228,15 +228,19 @@ function Cart() {
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "250px" }}>
                                                         <div>
-                                                            <p style={{ color: "#613D2B", fontWeight: "bold" }}>Subtotal</p>
+                                                            <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px" }}>Name Product</p>
+                                                        </div>
+                                                        <div>
+                                                            <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px", marginTop: -10 }}>Subtotal</p>
                                                         </div>
                                                         <div style={{ display: "flex", marginTop: -10 }}>
-                                                            <p style={{ fontSize: "18px" }}>Qty : </p>
+                                                            <p style={{ fontSize: "13px" }}>Quantity : </p>
                                                         </div>
                                                     </div>
-                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", marginTop: -20 }}>
-                                                        <p><FormatRupiah value={a.qty * a.product?.price} /></p>
-                                                        <p>{a.qty}</p>
+                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", marginTop: -20, width: "100%" }}>
+                                                        <p style={{ fontSize: "13px", fontWeight: "bold" }}>{a.product?.name_product}</p>
+                                                        <p style={{ fontSize: "13px",marginTop: -10 }}><FormatRupiah value={a.product?.price} /></p>
+                                                        <p style={{ fontSize: "13px",marginTop: -10 }}>{a.qty}</p>
                                                     </div>
                                                 </div>
                                             </div>
