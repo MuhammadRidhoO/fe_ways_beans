@@ -96,8 +96,6 @@ function Cart() {
                     Navigation("/profile-user");
                     setStatus_Payment("success")
                     console.log("berhasil")
-                    // let response = API.delete("/orderallorder")
-                    // console.log(response)
                 },
                 onPending: function (result) {
                     console.log(result);
