@@ -112,8 +112,7 @@ function Navbarr() {
       navigator("/")
    }
 
-   let { data: order,
-      refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
+   let { data: order, refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
          orderCartRefetch()
          const response = await API.get(`/orders`)
          orderCartRefetch()

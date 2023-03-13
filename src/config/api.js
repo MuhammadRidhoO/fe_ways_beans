@@ -2,7 +2,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 
 export const API = axios.create({
-    baseURL: "http://localhost:5000/api/v1",
+    baseURL: "https://bewaysbeans-production.up.railway.app/api/v1",
 });
 export const setAuthToken = (token) => {
     if (token) {
