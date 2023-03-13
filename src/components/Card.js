@@ -117,7 +117,7 @@ function Cart() {
     });
 
     useEffect(() => {
-        const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+        const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js"
         const myMidtransClientKey = "SB-Mid-client-uEsWsCCq1uRJ_gxm"
 
         let scriptTag = document.createElement("script")
@@ -237,8 +237,8 @@ function Cart() {
                                                     </div>
                                                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", marginTop: -20, width: "100%" }}>
                                                         <p style={{ fontSize: "13px", fontWeight: "bold" }}>{a.product?.name_product}</p>
-                                                        <p style={{ fontSize: "13px",marginTop: -10 }}><FormatRupiah value={a.product?.price} /></p>
-                                                        <p style={{ fontSize: "13px",marginTop: -10 }}>{a.qty}</p>
+                                                        <p style={{ fontSize: "13px", marginTop: -10 }}><FormatRupiah value={a.product?.price} /></p>
+                                                        <p style={{ fontSize: "13px", marginTop: -10 }}>{a.qty}</p>
                                                     </div>
                                                 </div>
                                             </div>
