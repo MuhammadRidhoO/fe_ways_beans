@@ -13,6 +13,10 @@ export default function Profile() {
     const handleLogin = () => setPasswordUser(true);
     const handleClose = () => setPasswordUser(false);
 
+    const [PhotoUser, setPhotoUser] = useState(false)
+    const handlePhoto = () => setPhotoUser(true);
+    const handleClosePhoto = () => setPhotoUser(false);
+
     let { data: profiles, refetch } = useQuery("ProfileUserTenantView", async () => {
         const response = await API.get("profile")
         return response.data.data
@@ -90,16 +94,16 @@ export default function Profile() {
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <div style={{ objectFit: "cover" }}>
-                                    <img src={profiles?.image} alt="" style={{ width: 150, height: 200 }} />
+                                    <img src={profiles?.image} alt="" style={{ width: 200, height: 250 }} />
                                     <div style={{ marginTop: 20 }}>
                                         <Form onSubmit={(e) => handleSubmitUser.mutate(e)} style={{ display: "flex", flexDirection: "column" }} >
                                             <Button
                                                 type="submit"
                                                 className="position-relative p-0 m-0"
-                                                style={{ backgroundColor: "#5A57AB", width: "150px" }}
+                                                style={{ backgroundColor: "#5A57AB", width: "200px" }}
                                             >
-                                                <span className="d-block py-2 px-3">
-                                                    Upload Images
+                                                <span className="d-block py-2 px-3" >
+                                                    Upload Profile
                                                 </span>
                                             </Button>
                                             <input
@@ -108,7 +112,7 @@ export default function Profile() {
                                                 type="file"
                                                 name="image"
                                                 onChange={handleChangePhoto}
-                                                style={{ cursor: "pointer", opacity: 0, backgroundColor: "#5A57AB", width: "150px" }}
+                                                style={{ display: "inline-block", cursor: "pointer", backgroundColor: "#5A57AB", width: "200px",marginTop:"10px" }}
 
                                             />
                                         </Form>
