@@ -258,19 +258,19 @@ function Cart() {
                         <div style={{ display: "flex", justifyContent: "end" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", width: 400 }}>
                                 <div>Total</div>
-                                {(() => {
+                                {/* {(() => {
                                     if (order?.length !== undefined) {
                                         orderCartRefetch()
-                                        return (
+                                        return ( */}
                                             <p><FormatRupiah value={total} /></p>
-                                        )
+                                        {/* )
                                     } else {
                                         orderCartRefetch()
                                         return (
                                             <div>Rp. 0</div>
                                         )
                                     }
-                                })()}
+                                })()} */}
                             </div>
                         </div>
                         <div style={{ display: "flex", justifyContent: "end" }}>
