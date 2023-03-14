@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
 import moment from 'moment'
+import UserDropdown from '../../src/image/User.jpg'
 
 export default function Profile() {
     const Navigate = useNavigate()
@@ -94,7 +95,40 @@ export default function Profile() {
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <div style={{ objectFit: "cover" }}>
-                                    <img src={profiles?.image} alt="" style={{ width: 200, height: 250 }} />
+                                {(() => {
+                                 if (profiles?.image !== "") {
+                                    return (
+                                       <img
+                                          src={profiles?.image}
+                                          alt=""
+                                          style={{
+                                             borderRadius: 40,
+                                             height: 50,
+                                             width: 50,
+                                             fontSize: 24,
+                                             color: "Red",
+                                             border: "3px solid black"
+                                          }}
+                                       />
+                                    )
+                                 } else {
+                                    return (
+                                       <img
+                                          src={UserDropdown}
+                                          alt=""
+                                          style={{
+                                             borderRadius: 40,
+                                             height: 50,
+                                             width: 50,
+                                             fontSize: 24,
+                                             color: "Blue",
+                                             border: "3px solid black"
+                                          }}
+                                       />
+                                    )
+                                 }
+                              })()}
+                                    {/* <img src={profiles?.image} alt="" style={{ width: 200, height: 250 }} /> */}
                                     <div style={{ marginTop: 20 }}>
                                         <Form onSubmit={(e) => handleSubmitUser.mutate(e)} style={{ display: "flex", flexDirection: "column" }} >
                                             <Button
