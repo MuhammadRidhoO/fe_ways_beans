@@ -1,6 +1,6 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { useEffect, useState } from "react";
-import { Button, Container, NavLink, Table } from "react-bootstrap";
+import { Button, Container, NavLink, Spinner, Table } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -22,6 +22,7 @@ function Cart() {
     const {
         data: orderCart,
         refetch: orderCartRefetch,
+        isLoading: loadingCard
     } = useQuery("cartbeans1", async () => {
         const response = await API.get("/orders")
         if (response.data.data === null) {
@@ -153,135 +154,143 @@ function Cart() {
                 <div>
                     <p style={{ fontWeight: "bold", color: "#613D2B", fontSize: "30px" }}>My Cart</p>
                 </div>
-                <div>
+                {loadingCard ? (
+                    <Container className="mt-5 pt-5 d-flex flex-row justify-content-center align-items-center">
+                        <Spinner animation="border" style={{ color: "#613D2B" }} />
+                    </Container>
+                ) : (
+
                     <div>
-                        <p style={{ color: "#613D2B", fontSize: "20px" }}>Review Your Order</p>
-                    </div>
-                    {orderCart?.map((a, b) => {
-                        return (
-                            <div style={{ display: "flex", width: "850px", justifyContent: "space-between" }}>
-                                <Table style={{ width: "450px", marginRight: "10px" }}>
-                                    <thead>
-                                        <tr style={{ border: "3px solid black", }}></tr>
-                                        <div style={{ display: "flex" }}>
-                                            <div>
-                                                <img src={a.product?.image_product} alt="" style={{ width: 120, height: 140, padding: 6 }} />
-                                            </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }}>
-                                                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "250px" }}>
-                                                    <div>
-                                                        <p style={{ color: "#613D2B", fontWeight: "bold" }}>{a.product?.name_product}</p>
-                                                    </div>
-                                                    <div style={{ display: "flex" }}>
-
-                                                        <button style={{
-                                                            width: "20px", height: "20px",
-                                                            display: "flex", justifyContent: "center",
-                                                            alignItems: "center", marginRight: 10, borderRadius: 40,
-                                                            backgroundColor: "transparent", border: 0, fontSize: "25px"
-                                                        }} onClick={() => {
-                                                            a.qty > 1
-                                                                ? handleLessQty.mutate(a.id)
-                                                                : handleDeleteOrder.mutate(a.id);
-                                                        }}>-</button>
-                                                        <p style={{
-                                                            padding: 3, backgroundColor: "#F6E6DA", color: "#613D2B",
-                                                            width: "25px", height: "25px", display: "flex", justifyContent: "center",
-                                                            alignItems: "center", borderRadius: 6, fontSize: "18px"
-                                                        }} name="qty" >{a.qty}</p>
-                                                        <button style={{
-                                                            width: "20px", height: "20px", display: "flex",
-                                                            justifyContent: "center", alignItems: "center", marginLeft: 10,
-                                                            borderRadius: 40, backgroundColor: "transparent", border: 0, fontSize: "25px"
-                                                        }} onClick={() => {
-                                                            a.qty < a.product.stock
-                                                                ? handleAddQty.mutate(a.id)
-                                                                : Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Out of stock",
-                                                                });
-                                                        }}>+</button>
-
-                                                    </div>
-                                                </div>
-                                                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-end" }}>
-                                                    <p style={{}}><FormatRupiah value={a.product?.price} /></p>
-                                                    <NavLink onClick={() => {
-                                                        handleDeleteOrder.mutate(a.id)
-                                                    }}>
-                                                        <img src="./image/Bin.png" alt="" style={{ width: "25px", height: "25px" }} />
-                                                    </NavLink>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <tr style={{ border: "3px solid black" }}></tr>
-                                    </thead>
-                                </Table>
-                                <div style={{ padding: "10px" }}>
-
-                                    <Table striped bordered hover>
+                        <div>
+                            <p style={{ color: "#613D2B", fontSize: "20px" }}>Review Your Order</p>
+                        </div>
+                        {orderCart?.map((a, b) => {
+                            return (
+                                <div style={{ display: "flex", width: "850px", justifyContent: "space-between" }}>
+                                    <Table style={{ width: "450px", marginRight: "10px" }}>
                                         <thead>
-                                            <tr style={{ border: "3px solid black" }}></tr>
+                                            <tr style={{ border: "3px solid black", }}></tr>
                                             <div style={{ display: "flex" }}>
-                                                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "250px" }}>
+                                                <div>
+                                                    <img src={a.product?.image_product} alt="" style={{ width: 120, height: 140, padding: 6 }} />
+                                                </div>
+                                                <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }}>
+                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "250px" }}>
                                                         <div>
-                                                            <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px" }}>Name Product</p>
+                                                            <p style={{ color: "#613D2B", fontWeight: "bold" }}>{a.product?.name_product}</p>
                                                         </div>
-                                                        <div>
-                                                            <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px", marginTop: -10 }}>Subtotal</p>
-                                                        </div>
-                                                        <div style={{ display: "flex", marginTop: -10 }}>
-                                                            <p style={{ fontSize: "13px" }}>Quantity : </p>
+                                                        <div style={{ display: "flex" }}>
+
+                                                            <button style={{
+                                                                width: "20px", height: "20px",
+                                                                display: "flex", justifyContent: "center",
+                                                                alignItems: "center", marginRight: 10, borderRadius: 40,
+                                                                backgroundColor: "transparent", border: 0, fontSize: "25px"
+                                                            }} onClick={() => {
+                                                                a.qty > 1
+                                                                    ? handleLessQty.mutate(a.id)
+                                                                    : handleDeleteOrder.mutate(a.id);
+                                                            }}>-</button>
+                                                            <p style={{
+                                                                padding: 3, backgroundColor: "#F6E6DA", color: "#613D2B",
+                                                                width: "25px", height: "25px", display: "flex", justifyContent: "center",
+                                                                alignItems: "center", borderRadius: 6, fontSize: "18px"
+                                                            }} name="qty" >{a.qty}</p>
+                                                            <button style={{
+                                                                width: "20px", height: "20px", display: "flex",
+                                                                justifyContent: "center", alignItems: "center", marginLeft: 10,
+                                                                borderRadius: 40, backgroundColor: "transparent", border: 0, fontSize: "25px"
+                                                            }} onClick={() => {
+                                                                a.qty < a.product.stock
+                                                                    ? handleAddQty.mutate(a.id)
+                                                                    : Swal.fire({
+                                                                        icon: "error",
+                                                                        title: "Out of stock",
+                                                                    });
+                                                            }}>+</button>
+
                                                         </div>
                                                     </div>
-                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", marginTop: -20, width: "100%" }}>
-                                                        <p style={{ fontSize: "13px", fontWeight: "bold" }}>{a.product?.name_product}</p>
-                                                        <p style={{ fontSize: "13px", marginTop: -10 }}><FormatRupiah value={a.product?.price} /></p>
-                                                        <p style={{ fontSize: "13px", marginTop: -10 }}>{a.qty}</p>
+                                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-end" }}>
+                                                        <p style={{}}><FormatRupiah value={a.product?.price} /></p>
+                                                        <NavLink onClick={() => {
+                                                            handleDeleteOrder.mutate(a.id)
+                                                        }}>
+                                                            <img src="./image/Bin.png" alt="" style={{ width: "25px", height: "25px" }} />
+                                                        </NavLink>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <tr style={{ border: "3px solid black" }}></tr>
                                             <tr style={{ border: "3px solid black" }}></tr>
                                         </thead>
-
                                     </Table>
+                                    <div style={{ padding: "10px" }}>
+
+                                        <Table striped bordered hover>
+                                            <thead>
+                                                <tr style={{ border: "3px solid black" }}></tr>
+                                                <div style={{ display: "flex" }}>
+                                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "250px" }}>
+                                                            <div>
+                                                                <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px" }}>Name Product</p>
+                                                            </div>
+                                                            <div>
+                                                                <p style={{ color: "#613D2B", fontWeight: "bold", fontSize: "13px", marginTop: -10 }}>Subtotal</p>
+                                                            </div>
+                                                            <div style={{ display: "flex", marginTop: -10 }}>
+                                                                <p style={{ fontSize: "13px" }}>Quantity : </p>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end", marginTop: -20, width: "100%" }}>
+                                                            <p style={{ fontSize: "13px", fontWeight: "bold" }}>{a.product?.name_product}</p>
+                                                            <p style={{ fontSize: "13px", marginTop: -10 }}><FormatRupiah value={a.product?.price} /></p>
+                                                            <p style={{ fontSize: "13px", marginTop: -10 }}>{a.qty}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <tr style={{ border: "3px solid black" }}></tr>
+                                                <tr style={{ border: "3px solid black" }}></tr>
+                                            </thead>
+
+                                        </Table>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                        )
-                    })}
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "end", width: "850px" }}>
-                        <div style={{ display: "flex", justifyContent: "end" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", width: 400 }}>
-                                <div>Total</div>
-                                {/* {(() => {
+                            )
+                        })}
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "end", width: "850px" }}>
+                            <div style={{ display: "flex", justifyContent: "end" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", width: 400 }}>
+                                    <div>Total</div>
+                                    {(() => {
                                     if (order?.length !== undefined) {
                                         orderCartRefetch()
-                                        return ( */}
-                                            <p><FormatRupiah value={total} /></p>
-                                        {/* )
+                                        return (
+                                    <p><FormatRupiah value={total} /></p>
+                                    )
                                     } else {
                                         orderCartRefetch()
                                         return (
                                             <div>Rp. 0</div>
                                         )
                                     }
-                                })()} */}
+                                })()}
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "end" }}>
+                                <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 50 }}
+                                    onClick={(e) => handleAddTransaction.mutate(e)}
+                                >
+                                    Pay
+                                </Button>
                             </div>
                         </div>
-                        <div style={{ display: "flex", justifyContent: "end" }}>
-                            <Button style={{ width: 300, backgroundColor: "#613D2B", border: "0px", marginTop: 50 }}
-                                onClick={(e) => handleAddTransaction.mutate(e)}
-                            >
-                                Pay
-                            </Button>
-                        </div>
                     </div>
-                </div>
+                )}
+
             </div>
         </Container >
     )

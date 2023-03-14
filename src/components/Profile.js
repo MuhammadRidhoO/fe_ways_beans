@@ -1,6 +1,6 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
-import { useState } from "react";
-import { Button, Container, Form, Modal, NavLink } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Container, Form, Modal, NavLink, Spinner } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
@@ -14,15 +14,10 @@ export default function Profile() {
     const handleLogin = () => setPasswordUser(true);
     const handleClose = () => setPasswordUser(false);
 
-    const [PhotoUser, setPhotoUser] = useState(false)
-    const handlePhoto = () => setPhotoUser(true);
-    const handleClosePhoto = () => setPhotoUser(false);
-
-    let { data: profiles, refetch } = useQuery("ProfileUserTenantView", async () => {
+    let { data: profiles, isLoading: profileDataIsLoading } = useQuery("ProfileUserTenantView", async () => {
         const response = await API.get("profile")
         return response.data.data
     })
-    refetch()
 
     const [password, setPassword] = useState({
         old_password: "",
@@ -72,13 +67,12 @@ export default function Profile() {
             dataPhoto.set("image", formAddPhoto.image[0]);
 
             const response = await API.patch(`/user-image/${profiles?.id}`, dataPhoto, config);
-            refetch()
+
             console.log(response);
         } catch (error) {
             console.log(error);
         }
     });
-    refetch()
     let { data: transaction } = useQuery("user", async () => {
         const response = await API.get(`transaction-user/` + profiles?.id)
         return response.data.data
@@ -93,122 +87,120 @@ export default function Profile() {
                             <div>
                                 <p style={{ fontWeight: "bold", color: "#613D2B", fontSize: "20px" }}>My Profile</p>
                             </div>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ objectFit: "cover" }}>
-                                {(() => {
-                                 if (profiles?.image !== "") {
-                                    return (
-                                       <img
-                                          src={profiles?.image}
-                                          alt=""
-                                          style={{
-                                             borderRadius: 40,
-                                             height: 50,
-                                             width: 50,
-                                             fontSize: 24,
-                                             color: "Red",
-                                             border: "3px solid black"
-                                          }}
-                                       />
-                                    )
-                                 } else {
-                                    return (
-                                       <img
-                                          src={UserDropdown}
-                                          alt=""
-                                          style={{
-                                             borderRadius: 40,
-                                             height: 50,
-                                             width: 50,
-                                             fontSize: 24,
-                                             color: "Blue",
-                                             border: "3px solid black"
-                                          }}
-                                       />
-                                    )
-                                 }
-                              })()}
-                                    {/* <img src={profiles?.image} alt="" style={{ width: 200, height: 250 }} /> */}
-                                    <div style={{ marginTop: 20 }}>
-                                        <Form onSubmit={(e) => handleSubmitUser.mutate(e)} style={{ display: "flex", flexDirection: "column" }} >
-                                            <Button
-                                                type="submit"
-                                                className="position-relative p-0 m-0"
-                                                style={{ backgroundColor: "#5A57AB", width: "200px" }}
-                                            >
-                                                <span className="d-block py-2 px-3" >
-                                                    Upload Profile
-                                                </span>
-                                            </Button>
-                                            <input
-                                                // className="d-block position-absolute h-100 w-100"
-                                                id="formFile"
-                                                type="file"
-                                                name="image"
-                                                onChange={handleChangePhoto}
-                                                style={{ display: "inline-block", cursor: "pointer", backgroundColor: "#5A57AB", width: "200px",marginTop:"10px" }}
+                            {profileDataIsLoading ? (
+                                <Container className="mt-5 pt-5 d-flex flex-row justify-content-center align-items-center">
+                                    <Spinner animation="border" style={{ color: "#613D2B" }} />
+                                </Container>
+                            ) : (
 
-                                            />
-                                        </Form>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <div style={{ objectFit: "cover" }}>
+                                        {(() => {
+                                            if (profiles?.image !== "") {
+                                                return (
+                                                    <img
+                                                        src={profiles?.image}
+                                                        alt=""
+                                                        style={{
+                                                            width: 200, height: 250
+                                                        }}
+                                                    />
+                                                )
+                                            } else {
+                                                return (
+                                                    <img
+                                                        src={UserDropdown}
+                                                        alt=""
+                                                        style={{
+                                                            width: 200, height: 250
+                                                        }}
+                                                    />
+                                                )
+                                            }
+                                        })()}
+                                        {/* <img src={profiles?.image} alt="" style={{ width: 200, height: 250 }} /> */}
+                                        <div style={{ marginTop: 20 }}>
+                                            <Form onSubmit={(e) => handleSubmitUser.mutate(e)} style={{ display: "flex", flexDirection: "column" }} >
+                                                <Button
+                                                    type="submit"
+                                                    className="position-relative p-0 m-0"
+                                                    style={{ backgroundColor: "#5A57AB", width: "200px" }}
+                                                >
+                                                    <span className="d-block py-2 px-3" >
+                                                        Upload Profile
+                                                    </span>
+                                                </Button>
+                                                <input
+                                                    // className="d-block position-absolute h-100 w-100"
+                                                    id="formFile"
+                                                    type="file"
+                                                    name="image"
+                                                    onChange={handleChangePhoto}
+                                                    style={{ display: "inline-block", cursor: "pointer", backgroundColor: "#5A57AB", width: "200px", marginTop: "10px" }}
+
+                                                />
+                                            </Form>
+                                        </div>
+                                    </div>
+                                    <div style={{ marginLeft: 0, paddingLeft: "10px", paddingRight: "20px" }}>
+                                        <div>
+                                            <h5 style={{ color: "#613D2B" }}>Full Name</h5>
+                                            <p>{profiles?.full_name}</p>
+                                        </div>
+                                        <div>
+                                            <h5 style={{ color: "#613D2B" }}>Email</h5>
+                                            <p>{profiles?.email}</p>
+                                        </div>
+                                        <div>
+                                            <NavLink onClick={handleLogin}><h5 style={{ color: "#613D2B" }}>Password</h5></NavLink>
+                                            <Modal show={passwordUser} onHide={handleClose}>
+                                                <Modal.Title className="text-center p-4">Change Password</Modal.Title>
+                                                <Modal.Body>
+                                                    <Form onSubmit={(e) => handleUpdatePassword.mutate(e)}>
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                            <Form.Label>Old Password</Form.Label>
+                                                            <Form.Control
+                                                                type="password"
+                                                                name="old_password"
+                                                                autoFocus
+                                                                onChange={handleChangePassword}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                            <Form.Label>New Password</Form.Label>
+                                                            <Form.Control
+                                                                type="password"
+                                                                name="new_password"
+                                                                autoFocus
+                                                                onChange={handleChangePassword}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                            <Form.Label>Confirm Password</Form.Label>
+                                                            <Form.Control
+                                                                type="password"
+                                                                name="confirm_password"
+                                                                autoFocus
+                                                                onChange={handleChangePassword}
+                                                            />
+                                                        </Form.Group>
+                                                        <div style={{ display: "flex", justifyContent: "center" }}>
+                                                            <Button type="submit" variant="primary" style={{ width: 300 }}
+                                                            >
+                                                                Save Changes
+                                                            </Button>
+                                                        </div>
+                                                    </Form>
+                                                </Modal.Body>
+                                                <Modal.Footer className="display-flex justify-content-center">
+                                                </Modal.Footer>
+                                            </Modal>
+                                            <p>************</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style={{ marginLeft: 0, paddingLeft: "10px", paddingRight: "20px" }}>
-                                    <div>
-                                        <h5 style={{ color: "#613D2B" }}>Full Name</h5>
-                                        <p>{profiles?.full_name}</p>
-                                    </div>
-                                    <div>
-                                        <h5 style={{ color: "#613D2B" }}>Email</h5>
-                                        <p>{profiles?.email}</p>
-                                    </div>
-                                    <div>
-                                        <NavLink onClick={handleLogin}><h5 style={{ color: "#613D2B" }}>Password</h5></NavLink>
-                                        <Modal show={passwordUser} onHide={handleClose}>
-                                            <Modal.Title className="text-center p-4">Change Password</Modal.Title>
-                                            <Modal.Body>
-                                                <Form onSubmit={(e) => handleUpdatePassword.mutate(e)}>
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                        <Form.Label>Old Password</Form.Label>
-                                                        <Form.Control
-                                                            type="password"
-                                                            name="old_password"
-                                                            autoFocus
-                                                            onChange={handleChangePassword}
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                        <Form.Label>New Password</Form.Label>
-                                                        <Form.Control
-                                                            type="password"
-                                                            name="new_password"
-                                                            autoFocus
-                                                            onChange={handleChangePassword}
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                        <Form.Label>Confirm Password</Form.Label>
-                                                        <Form.Control
-                                                            type="password"
-                                                            name="confirm_password"
-                                                            autoFocus
-                                                            onChange={handleChangePassword}
-                                                        />
-                                                    </Form.Group>
-                                                    <div style={{ display: "flex", justifyContent: "center" }}>
-                                                        <Button type="submit" variant="primary" style={{ width: 300 }}
-                                                        >
-                                                            Save Changes
-                                                        </Button>
-                                                    </div>
-                                                </Form>
-                                            </Modal.Body>
-                                            <Modal.Footer className="display-flex justify-content-center">
-                                            </Modal.Footer>
-                                        </Modal>
-                                        <p>************</p>
-                                    </div>
-                                </div>
-                            </div>
+
+                            )}
                         </div>
                         <div>
                             <div>
