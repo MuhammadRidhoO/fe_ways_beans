@@ -77,9 +77,6 @@ export default function Profile() {
         const response = await API.get(`transaction-user/` + profiles?.id)
         return response.data.data
     })
-    useEffect(()=>{
-        profileDataIsLoading();
-    },[])
 
     return (
         <Container>
