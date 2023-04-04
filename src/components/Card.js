@@ -138,12 +138,13 @@ function Cart() {
         }, 0);
 
         setTotal(total);
-    }, [total]);
+    }, [orderCart]);
 
     let { data: order } = useQuery("totalorderUsers", async () => {
         const response = await API.get(`/orders`)
         return response.data.data
     })
+    orderCartRefetch()
 
 
 
@@ -251,11 +252,8 @@ function Cart() {
                                                 <tr style={{ border: "3px solid black" }}></tr>
                                                 <tr style={{ border: "3px solid black" }}></tr>
                                             </thead>
-
                                         </Table>
-
                                     </div>
-
                                 </div>
 
                             )
