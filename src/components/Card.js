@@ -138,7 +138,7 @@ function Cart() {
         }, 0);
 
         setTotal(total);
-    }, []);
+    }, [total]);
 
     let { data: order } = useQuery("totalorderUsers", async () => {
         const response = await API.get(`/orders`)
