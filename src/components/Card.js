@@ -266,12 +266,12 @@ function Cart() {
                                     <div>Total</div>
                                     {(() => {
                                         if (order?.length !== undefined) {
-                                            orderCartRefetch()
+                                            // orderCartRefetch()
                                             return (
                                                 <p><FormatRupiah value={total} /></p>
                                             )
                                         } else {
-                                            orderCartRefetch()
+                                            // orderCartRefetch()
                                             return (
                                                 <div>Rp. 0</div>
                                             )
