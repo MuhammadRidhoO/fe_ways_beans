@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Dropdown, Form, Modal, NavLink } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -113,11 +113,15 @@ function Navbarr() {
    }
 
    let { data: order, refetch: orderCartRefetch, } = useQuery("orderUser", async () => {
-         orderCartRefetch()
-         const response = await API.get(`/orders`)
-         orderCartRefetch()
-         return response.data.data
-      })
+      orderCartRefetch()
+      const response = await API.get(`/orders`)
+      orderCartRefetch()
+      return response.data.data
+   })
+
+   useEffect(() => {
+      orderCartRefetch();
+   }, [])
 
    return (
       <div style={{ position: "fixed", width: "100%", zIndex: 100, boxShadow: "0px 0px 10px 0px", backgroundColor: "white" }}>
