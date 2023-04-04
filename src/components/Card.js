@@ -138,13 +138,12 @@ function Cart() {
         }, 0);
 
         setTotal(total);
-    }, [orderCart]);
+    }, []);
 
     let { data: order } = useQuery("totalorderUsers", async () => {
         const response = await API.get(`/orders`)
         return response.data.data
-    }, [])
-    orderCartRefetch()
+    })
 
 
 
