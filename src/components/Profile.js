@@ -1,5 +1,5 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Container, Form, Modal, NavLink, Spinner } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function Profile() {
     const handleLogin = () => setPasswordUser(true);
     const handleClose = () => setPasswordUser(false);
 
-    let { data: profiles, isLoading: profileDataIsLoading } = useQuery("ProfileUserTenantView", async () => {
+    let { data: profiles, isLoading: profileDataIsLoading, refetch: profileRefetch } = useQuery("ProfileUserTenantView", async () => {
         const response = await API.get("profile")
         return response.data.data
     })
@@ -67,7 +67,7 @@ export default function Profile() {
             dataPhoto.set("image", formAddPhoto.image[0]);
 
             const response = await API.patch(`/user-image/${profiles?.id}`, dataPhoto, config);
-
+            profileRefetch();
             console.log(response);
         } catch (error) {
             console.log(error);
@@ -126,7 +126,7 @@ export default function Profile() {
                                                     className="position-relative p-0 m-0"
                                                     style={{ backgroundColor: "#5A57AB", width: "200px" }}
                                                 >
-                                                    <span className="d-block py-2 px-3" >
+                                                    <span className="d-block py-2 px-3">
                                                         Upload Profile
                                                     </span>
                                                 </Button>

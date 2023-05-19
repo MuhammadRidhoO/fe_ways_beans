@@ -24,7 +24,7 @@ function Navbarr() {
 
    const handleCloseRegister = () => setRegister(false);
    const handleRegister = () => setRegister(true)
-   let { data: profiles, refetch } = useQuery("ProfileUserViewNavbar", async () => {
+   let { data: profiles } = useQuery("ProfileUserViewNavbar", async () => {
       const response = await API.get("profile")
       return response.data.data
    })
@@ -119,9 +119,9 @@ function Navbarr() {
       return response.data.data
    })
 
-   useEffect(() => {
-      orderCartRefetch();
-   }, [])
+   // useEffect(() => {
+   //    // orderCartRefetch();
+   // }, [])
 
    return (
       <div style={{ position: "fixed", width: "100%", zIndex: 100, boxShadow: "0px 0px 10px 0px", backgroundColor: "white" }}>
@@ -143,18 +143,15 @@ function Navbarr() {
                            <NavLink href='/card-transaction' style={{ marginRight: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
                               {(() => {
                                  if (state.user.roles !== "Admin") {
-                                    refetch()
                                     return (
                                        <div style={{ position: "absolute" }}>
                                           <img src={Card} alt='' />
                                           {(() => {
                                              if (order?.length !== undefined) {
-                                                refetch()
                                                 return (
                                                    <img src="../image/Ellipse 2.png" alt='' style={{ marginTop: -10, marginLeft: -10 }} />
                                                 )
                                              } else {
-                                                refetch()
                                                 return (
                                                    <h></h>
                                                 )
@@ -163,7 +160,6 @@ function Navbarr() {
                                        </div>
                                     )
                                  } else {
-                                    refetch()
                                     return (
                                        <></>
                                     )

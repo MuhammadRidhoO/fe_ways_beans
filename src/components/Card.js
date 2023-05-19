@@ -143,10 +143,7 @@ function Cart() {
     let { data: order } = useQuery("totalorderUsers", async () => {
         const response = await API.get(`/orders`)
         return response.data.data
-    })
-    orderCartRefetch()
-
-
+    },[])
 
     return (
         <Container style={{ margin: "auto", width: "850px" }}>

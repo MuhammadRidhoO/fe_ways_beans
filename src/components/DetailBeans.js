@@ -20,8 +20,6 @@ function Detail() {
                 product_id: parseInt(id),
             });
             console.log(response.data.status)
-
-
         } catch (error) {
             console.log(error);
         }
